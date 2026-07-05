@@ -1,0 +1,16 @@
+name: Usine Xi
+on: [push, workflow_dispatch]
+
+jobs:
+  simulateur:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Outils de compilation
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential imagemagick libx11-dev libxext-dev libfreetype6-dev libpng-dev libjpeg-dev pkg-config librsvg2-bin inkscape
+          python3 -m pip install --break-system-packages lz4 pypng stringcase || python3 -m pip install lz4 pypng stringcase
+      - name: Compiler Epsilon (simulateur)
+        working-directory: epsilon
+        run: make PLATFORM=simulator -j4
